@@ -6,11 +6,21 @@ public class Util {
     return xI + ((xF - xI) * dX);
   }
 
-  public static int[][] rotateMatrix(int[][] matrix, int rows, int columns) {
-    int[][] newMatrix = new int[columns][rows];
-    for(int i = 0; i < columns; i++) {
-      for(int j = 0; j < rows; j++) {
-        newMatrix[i][j] = matrix[j][i];
+  public static Object[][] rotateMatrixRight(Object[][] matrix, int rows, int columns) {
+    Object[][] newMatrix = new Object[columns][rows];
+    for(int j = 0; j < columns; j++) {
+      for(int i = 0; i < rows; i++) {
+        newMatrix[j][rows - i] = matrix[i][j];
+      }
+    }
+    return newMatrix;
+  }
+
+  public static Object[][] rotateMatrixLeft(Object[][] matrix, int rows, int columns) {
+    Object[][] newMatrix = new Object[columns][rows];
+    for(int j = 0; j < columns; j++) {
+      for(int i = 0; i < rows; i++) {
+        newMatrix[columns - j][i] = matrix[i][j];
       }
     }
     return newMatrix;
