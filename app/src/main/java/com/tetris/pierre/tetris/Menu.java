@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import java.io.Console;
 
+import Game.Game;
 import Game.Square;
 import Game.Util;
 

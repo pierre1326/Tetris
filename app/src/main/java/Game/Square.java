@@ -2,10 +2,14 @@ package Game;
 
 public class Square {
 
-  private int color;
+  private String image;
 
-  public Square(int color, float dR){
-    this.color = color;
+  public Square(String image){
+    this.image = image;
+  }
+
+  public String getImage() {
+    return image;
   }
 
 }

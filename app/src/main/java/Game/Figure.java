@@ -1,8 +1,5 @@
 package Game;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 public class Figure {
 
   private float x;
@@ -13,16 +10,14 @@ public class Figure {
   private boolean stoped;
 
   private Square[][] form;
-  private Drawable texture;
 
-  public Figure(int x, int y, int velocity, float dY, Square[][] form, int id, Context context) {
+  public Figure(int x, int y, int velocity, float dY, Square[][] form) {
     this.x = x;
     this.y = y;
     this.yF = y;
     this.dY = dY;
     this.velocity = velocity;
     this.form = form;
-    this.texture = context.getResources().getDrawable(id);
     this.stoped = false;
   }
 
