@@ -25,4 +25,9 @@ public class Util {
     }
     return newMatrix;
   }
+
+  public static int numberRandom(int n) {
+    int number = (int) (Math.random() * n) + 1;
+    return number;
+  }
 }

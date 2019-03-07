@@ -96,7 +96,7 @@ public class Game {
   }
 
   private String getNameImage() {
-    int number = (int) (Math.random() * 5) + 1;
+    int number = Util.numberRandom(5);
     switch(number) {
       case 1:
         return "blue.png";
