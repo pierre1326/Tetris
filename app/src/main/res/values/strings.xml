@@ -3,4 +3,6 @@
     <string name="exitButton">Exit Button</string>
     <string name="startButton">Start Button</string>
     <string name="icon">Tetris Icon</string>
+    <string name="score">Score: 0</string>
+    <string name="points">+0</string>
 </resources>

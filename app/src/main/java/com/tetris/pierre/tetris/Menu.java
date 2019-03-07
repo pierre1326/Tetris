@@ -174,7 +174,7 @@ public class Menu extends AppCompatActivity {
     protected Void doInBackground(Void... voids) {
       while(!isCancelled()) {
         try {
-          java.lang.Thread.sleep(700);
+          java.lang.Thread.sleep(1200);
         }
         catch (InterruptedException e) {
 
