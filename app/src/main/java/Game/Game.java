@@ -1,5 +1,7 @@
 package Game;
 
+import android.graphics.Color;
+
 import java.util.Timer;
 
 public class Game {
@@ -25,6 +27,7 @@ public class Game {
 
   public void prepareGame() {
     canvas.setSquares(new Square[ROWS][COLUMNS]);
+    canvas.changeColors(Color.BLACK, Color.RED);
     this.velocity = 32;
     this.dScale = 0.01f;
   }

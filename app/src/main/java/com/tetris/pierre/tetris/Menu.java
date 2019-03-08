@@ -53,10 +53,7 @@ public class Menu extends AppCompatActivity {
   }
 
   public void initGame(View view) {
-    Point size = getResolutionScreen();
     Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("width", size.x);
-    intent.putExtra("height", size.y);
     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
   }
 
@@ -70,13 +67,6 @@ public class Menu extends AppCompatActivity {
     anim.setFillAfter(true);
     anim.setDuration(time);
     v.startAnimation(anim);
-  }
-
-  private Point getResolutionScreen() {
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    return size;
   }
 
   @Override

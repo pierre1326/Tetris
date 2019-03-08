@@ -7,23 +7,22 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import Game.CanvasView;
+import Game.Game;
 
 public class GameActivity extends AppCompatActivity {
 
   private CanvasView canvas;
-
-  private float widthCanvas;
-  private float heightCanvas;
+  private Game game;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_game);
 
-    int width = getIntent().getIntExtra("width", 1080);
-    int height = getIntent().getIntExtra("height", 1920);
-
     canvas = findViewById(R.id.canvas);
+    game = new Game(canvas);
+    game.prepareGame();
+    game.initGame();
   }
 
 

@@ -22,8 +22,14 @@ public class CanvasView extends View {
 
   private int bgColor = Color.BLACK;
   private int sColor = Color.RED;
+  private int tColor = Color.BLACK;
+  private int oColor = Color.WHITE;
 
   private Square[][] squares;
+
+  private int score;
+  private int points;
+  private float alpha;
 
   public CanvasView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -32,6 +38,7 @@ public class CanvasView extends View {
     tPaint = new Paint();
     sPaint = new Paint();
     fPaint = new Paint();
+    initPaints();
   }
 
   public Square[][] getSquares() {
@@ -40,6 +47,18 @@ public class CanvasView extends View {
 
   public void setSquares(Square[][] squares) {
     this.squares = squares;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
+  }
+
+  public void setAlpha(float alpha) {
+    this.alpha = alpha;
   }
 
   public Point getSize() {
@@ -61,12 +80,27 @@ public class CanvasView extends View {
   }
 
   private void initPaints() {
+    bgPaint.setColor(bgColor);
 
+    sPaint.setColor(sColor);
+    sPaint.setStrokeWidth(5f);
+    sPaint.setAntiAlias(true);
+    sPaint.setStyle(Paint.Style.STROKE);
+
+    tPaint.setColor(tColor);
+    tPaint.setAntiAlias(true);
+    tPaint.setTextSize(20);
+    tPaint.setStrokeWidth(5f);
+
+    fPaint.setAntiAlias(true);
+    fPaint.setColor(bgColor);
   }
 
-  private void changeColors(int bgColor, int sColor) {
+  public void changeColors(int bgColor, int sColor, int tColor, int oColor) {
     this.bgColor = bgColor;
     this.sColor = sColor;
+    this.tColor = tColor;
+    this.oColor = oColor;
   }
 
 }
