@@ -7,42 +7,27 @@
     android:background="@color/bgGame"
     tools:context=".GameActivity">
 
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="264dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/score"
-        android:textAppearance="@style/textShadow"
-        android:textSize="45sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/points"
-        android:layout_width="113dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="34dp"
-        android:gravity="center"
-        android:text="@string/points"
-        android:textAppearance="@style/textShadow"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/score" />
-
-    <Game.CanvasView
-        android:id="@+id/canvas"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="636dp"
-        android:layout_marginBottom="17dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/score"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <Game.CanvasView
+            android:id="@+id/canvas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

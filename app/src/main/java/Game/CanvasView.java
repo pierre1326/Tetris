@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -11,39 +12,61 @@ public class CanvasView extends View {
 
   private Context context;
 
-  private Canvas canvas;
+  private int width;
+  private int height;
+
   private Paint bgPaint;
-  private Paint figurePaint;
-  private Paint scenePaint;
-  private Paint textPaint;
+  private Paint tPaint;
+  private Paint sPaint;
+  private Paint fPaint;
 
-  private float width;
-  private float height;
+  private int bgColor = Color.BLACK;
+  private int sColor = Color.RED;
 
-  private int backgroundColor = Color.BLACK;
-  private int portraitColor = Color.WHITE;
+  private Square[][] squares;
 
   public CanvasView(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    this.canvas = new Canvas();
-    this.bgPaint = new Paint();
-    this.figurePaint = new Paint();
-    this.scenePaint = new Paint();
-    this.textPaint = new Paint();
+    bgPaint = new Paint();
+    tPaint = new Paint();
+    sPaint = new Paint();
+    fPaint = new Paint();
+  }
+
+  public Square[][] getSquares() {
+    return squares;
+  }
+
+  public void setSquares(Square[][] squares) {
+    this.squares = squares;
+  }
+
+  public Point getSize() {
+    Point point = new Point();
+    point.x = width;
+    point.y = height;
+    return point;
   }
 
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
+    this.width = w;
+    this.height = h;
   }
 
-  public void setSize(float width, float height) {
-    this.width = width;
-    this.height = height;
+  @Override
+  protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
   }
 
-  public void clearCanvas() {
-    bgPaint.setColor(backgroundColor);
-    canvas.drawRect(0, 0, width, height, bgPaint);
+  private void initPaints() {
+
   }
+
+  private void changeColors(int bgColor, int sColor) {
+    this.bgColor = bgColor;
+    this.sColor = sColor;
+  }
+
 }

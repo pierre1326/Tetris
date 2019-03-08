@@ -2,14 +2,28 @@ package Game;
 
 public class Square {
 
-  private String image;
+  private float scaleX;
+  private float scaleY;
 
-  public Square(String image){
+  private float dScale;
+  public boolean reduce;
+
+  private int image;
+
+  public Square(int image, float dScale) {
     this.image = image;
+    this.dScale = dScale;
   }
 
-  public String getImage() {
-    return image;
+  public void setReduce(boolean reduce) {
+    this.reduce = reduce;
+  }
+
+  public void update() {
+    if(reduce) {
+      scaleX = Util.lerp(scaleX, 0 , dScale);
+      scaleY = Util.lerp(scaleY, 0, dScale);
+    }
   }
 
 }
