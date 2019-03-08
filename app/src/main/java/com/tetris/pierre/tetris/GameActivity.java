@@ -1,10 +1,7 @@
 package com.tetris.pierre.tetris;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import Game.CanvasView;
 import Game.Game;
@@ -24,6 +21,5 @@ public class GameActivity extends AppCompatActivity {
     game.prepareGame();
     game.initGame();
   }
-
 
 }

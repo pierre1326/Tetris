@@ -23,11 +23,12 @@ public class Game {
 
   public Game(CanvasView canvas) {
     task = new Task(this);
+    this.canvas = canvas;
   }
 
   public void prepareGame() {
     canvas.setSquares(new Square[ROWS][COLUMNS]);
-    canvas.changeColors(Color.BLACK, Color.RED);
+    canvas.changeColors(Color.parseColor("#002b80"), Color.parseColor("#d9d9d9"), Color.WHITE, Color.parseColor("#99003d"), Color.parseColor("#d9d9d9"));
     this.velocity = 32;
     this.dScale = 0.01f;
   }

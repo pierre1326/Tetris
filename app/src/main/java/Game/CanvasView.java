@@ -12,6 +12,8 @@ public class CanvasView extends View {
 
   private Context context;
 
+  private Canvas canvas;
+
   private int width;
   private int height;
 
@@ -20,20 +22,20 @@ public class CanvasView extends View {
   private Paint sPaint;
   private Paint fPaint;
 
-  private int bgColor = Color.BLACK;
-  private int sColor = Color.RED;
+  private int bgColor = Color.BLUE;
+  private int sColor = Color.MAGENTA;
+  private int pColor = Color.RED;
   private int tColor = Color.BLACK;
   private int oColor = Color.WHITE;
 
   private Square[][] squares;
 
   private int score;
-  private int points;
-  private float alpha;
 
   public CanvasView(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
+    canvas = new Canvas();
     bgPaint = new Paint();
     tPaint = new Paint();
     sPaint = new Paint();
@@ -53,14 +55,6 @@ public class CanvasView extends View {
     this.score = score;
   }
 
-  public void setPoints(int points) {
-    this.points = points;
-  }
-
-  public void setAlpha(float alpha) {
-    this.alpha = alpha;
-  }
-
   public Point getSize() {
     Point point = new Point();
     point.x = width;
@@ -77,13 +71,35 @@ public class CanvasView extends View {
   @Override
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
+    //drawBackground
+    canvas.drawColor(bgColor);
+    //drawScene
+    sPaint.setAlpha(100);
+    sPaint.setColor(pColor);
+    sPaint.setStrokeWidth(10f);
+    canvas.drawRect(0, (int)(height - (height * 0.1f)), width, height, sPaint);
+    sPaint.setColor(sColor);
+    sPaint.setStrokeWidth(55f);
+    canvas.drawRect(0, 0, width, height, sPaint);
+    //drawText
+    tPaint.setTextSize(110);
+    tPaint.setStrokeWidth(12);
+    tPaint.setColor(oColor);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
+    tPaint.setStyle(Paint.Style.STROKE);
+    tPaint.setStrokeWidth(3);
+    tPaint.setColor(tColor);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
+
+    //drawFigures
+
   }
 
   private void initPaints() {
     bgPaint.setColor(bgColor);
 
     sPaint.setColor(sColor);
-    sPaint.setStrokeWidth(5f);
+    sPaint.setStrokeWidth(55f);
     sPaint.setAntiAlias(true);
     sPaint.setStyle(Paint.Style.STROKE);
 
@@ -96,11 +112,19 @@ public class CanvasView extends View {
     fPaint.setColor(bgColor);
   }
 
-  public void changeColors(int bgColor, int sColor, int tColor, int oColor) {
+  public void changeColors(int bgColor, int sColor, int tColor, int oColor, int pColor) {
     this.bgColor = bgColor;
     this.sColor = sColor;
     this.tColor = tColor;
     this.oColor = oColor;
+    this.pColor = pColor;
+    updatePaints();
+  }
+
+  private void updatePaints() {
+    bgPaint.setColor(bgColor);
+    sPaint.setColor(sColor);
+    tPaint.setColor(tColor);
   }
 
 }
