@@ -37,7 +37,7 @@ public class Game {
 
   private CanvasView canvas;
 
-  private Object pauseLock = new Object();
+  private final Object pauseLock = new Object();
 
   private Task task;
 
@@ -101,11 +101,57 @@ public class Game {
 
   public void moveFigure(int direction) {
     synchronized (pauseLock) {
-      if(direction == 1) {
-
+      if(direction == -1) {
+        ArrayList<int[]> indexSquares = obtainIndex();
+        Square[][] squares = canvas.getSquares();
+        for(int i = 0; i < indexSquares.size(); i++) {
+          int[] index = indexSquares.get(i);
+          int[] checkIndex = {index[0], index[1] - 1};
+          if(!(index[1] - 1 > -1 && ( squares[index[0]][index[1] - 1] == null || Util.checkIndex(checkIndex, indexSquares ) > -1 ))) {
+            return;
+          }
+        }
+        for(int j = 0; j < COLUMNS; j++) {
+          for(int i = 0; i < ROWS; i++) {
+            int[] index = {i, j};
+            int checkIndex = Util.checkIndex(index, indexSquares);
+            if(checkIndex > -1) {
+              squares[i][j - 1] = squares[i][j];
+              squares[i][j] = null;
+              indexSquares.remove(checkIndex);
+              index[1] = index[1] - 1;
+              indexSquares.add(index);
+            }
+          }
+        }
+        updateIndex(indexSquares);
+        updateMatrix(squares);
       }
-      else if(direction == -1) {
-
+      else if(direction == 1) {
+        ArrayList<int[]> indexSquares = obtainIndex();
+        Square[][] squares = canvas.getSquares();
+        for(int i = 0; i < indexSquares.size(); i++) {
+          int[] index = indexSquares.get(i);
+          int[] checkIndex = {index[0], index[1] + 1};
+          if(!(index[1] + 1 < COLUMNS && ( squares[index[0]][index[1] + 1] == null || Util.checkIndex(checkIndex, indexSquares ) > -1 ))) {
+            return;
+          }
+        }
+        for(int j = COLUMNS - 1; j > -1; j--) {
+          for(int i = 0; i < ROWS; i++) {
+            int[] index = {i, j};
+            int checkIndex = Util.checkIndex(index, indexSquares);
+            if(checkIndex > -1) {
+              squares[i][j + 1] = squares[i][j];
+              squares[i][j] = null;
+              indexSquares.remove(checkIndex);
+              index[1] = index[1] + 1;
+              indexSquares.add(index);
+            }
+          }
+        }
+        updateIndex(indexSquares);
+        updateMatrix(squares);
       }
     }
   }

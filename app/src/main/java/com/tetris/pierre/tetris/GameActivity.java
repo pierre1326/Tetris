@@ -22,11 +22,11 @@ public class GameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_game);
 
-    int widht = getIntent().getIntExtra("width", 1080);
+    int width = getIntent().getIntExtra("width", 1080);
     int height = getIntent().getIntExtra("height", 1920);
 
     canvas = findViewById(R.id.canvas);
-    game = new Game(canvas, widht, height);
+    game = new Game(canvas, width, height);
     game.prepareGame();
     game.initGame();
 

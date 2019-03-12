@@ -1,5 +1,7 @@
 package Game;
 
+import java.util.ArrayList;
+
 public class Util {
 
   public static float lerp(float xI, float xF, float dX) {
@@ -30,4 +32,15 @@ public class Util {
     int number = (int) (Math.random() * n) + 1;
     return number;
   }
+
+  public static int checkIndex(int[] index, ArrayList<int[]> indexSquares) {
+    for(int i = 0; i < indexSquares.size(); i++) {
+      int[] indexSquare = indexSquares.get(i);
+      if(index[0] == indexSquare[0] && index[1] == indexSquare[1]) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
 }
