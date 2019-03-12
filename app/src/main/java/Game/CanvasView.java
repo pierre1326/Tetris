@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -13,6 +14,9 @@ public class CanvasView extends View {
   private Context context;
 
   private Canvas canvas;
+
+  private int originX = 27;
+  private int originY = 27;
 
   private int width;
   private int height;
@@ -77,6 +81,11 @@ public class CanvasView extends View {
     return point;
   }
 
+  public Point getOrigin() {
+    Point point = new Point(originX, originY);
+    return point;
+  }
+
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
     this.width = w;
@@ -106,15 +115,23 @@ public class CanvasView extends View {
     tPaint.setColor(tColor);
     canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
     //drawFigures
-    int x = 0;
-    int y = 0;
+    int x = originX;
+    int y = originY;
     if(squares != null) {
+      fPaint.setColor(bgColor);
       for(int i = 0; i < squares.length; i++) {
         for(int j = 0; j < squares[i].length; j++) {
-          //Draw squares
+          if(squares[i][j] != null) {
+            Square square = squares[i][j];
+            canvas.save();
+            canvas.translate(x, y);
+            canvas.drawBitmap (square.getImage(), null, new RectF((float)0,(float)0, square.getFitWidht(),square.getFitHeight()),null);
+            canvas.restore();
+          }
           x += widthCell;
         }
         y += heightCell;
+        x = originY;
       }
     }
   }
@@ -134,6 +151,9 @@ public class CanvasView extends View {
 
     fPaint.setAntiAlias(true);
     fPaint.setColor(bgColor);
+
+    originX = 27;
+    originY = 27;
   }
 
   public void changeColors(int bgColor, int sColor, int tColor, int oColor, int pColor) {

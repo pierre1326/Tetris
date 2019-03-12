@@ -1,6 +1,11 @@
 package Game;
 
+import android.graphics.Bitmap;
+
 public class Square {
+
+  private int width;
+  private int height;
 
   private float scaleX;
   private float scaleY;
@@ -8,15 +13,17 @@ public class Square {
   private float dScale;
   public boolean reduce;
 
-  private int image;
+  private Bitmap image;
 
   private boolean stop;
 
-  public Square(int image, float dScale, float scaleX, float scaleY) {
+  public Square(Bitmap image, float dScale, float scaleX, float scaleY, int width, int height) {
     this.image = image;
     this.dScale = dScale;
     this.scaleX = scaleX;
     this.scaleY = scaleY;
+    this.width = width;
+    this.height = height;
   }
 
   public void setReduce(boolean reduce) {
@@ -35,8 +42,32 @@ public class Square {
     return reduce;
   }
 
-  public int getImage() {
+  public Bitmap getImage() {
     return image;
+  }
+
+  public float getFitWidht() {
+    return width * scaleX;
+  }
+
+  public float getFitHeight() {
+    return height * scaleY;
+  }
+
+  public float getScaleX() {
+    return scaleX;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public float getScaleY() {
+    return scaleY;
   }
 
   public void update() {

@@ -1,5 +1,7 @@
 package Game;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 
@@ -17,8 +19,8 @@ public class Game {
   private int velocity;
   private float dScale = 0.05f;
 
-  private float WIDTH_IMAGE = 153f;
-  private float HEIGHT_IMAGE = 153f;
+  private int WIDTH_IMAGE = 153;
+  private int HEIGHT_IMAGE = 153;
   private long DELAY = 0;
   private long FPS = 1000 / 30;
   private int COLUMNS = 10;
@@ -31,6 +33,8 @@ public class Game {
   private float scaleY;
 
   private CanvasView canvas;
+
+  private Object pauseLock = new Object();
 
   private Task task;
 
@@ -46,17 +50,41 @@ public class Game {
     canvas.changeColors(Color.parseColor("#002b80"), Color.parseColor("#d9d9d9"), Color.WHITE, Color.parseColor("#99003d"), Color.parseColor("#d9d9d9"));
     this.velocity = 32;
     this.dScale = 0.01f;
+    Point origin = canvas.getOrigin();
+    int fitHeight = height - origin.y;
     Point cellSize = new Point();
-    cellSize.x = width / COLUMNS;
-    cellSize.y = (int)((height - (height * 0.1f)) / ROWS);
+    cellSize.x = (width - origin.x) / COLUMNS;
+    cellSize.y = (int)((fitHeight - (fitHeight * 0.1f)) / ROWS);
     canvas.setCellSize(cellSize);
-    scaleX = cellSize.x / WIDTH_IMAGE;
-    scaleY = cellSize.y / HEIGHT_IMAGE;
+    scaleX = (float) cellSize.x / (float) WIDTH_IMAGE;
+    scaleY = (float) cellSize.y / (float) HEIGHT_IMAGE;
+    createFigure();
   }
 
   public void initGame() {
     Timer timer = new Timer();
     timer.schedule(task, DELAY , FPS);
+  }
+
+  public Square[][] obtainMatrix() {
+    synchronized (pauseLock) {
+      return canvas.getSquares();
+    }
+  }
+
+  public void updateMatrix(Square[][] matrix) {
+    synchronized (pauseLock) {
+      canvas.setSquares(matrix);
+    }
+  }
+
+  public void createFigure() {
+    synchronized (pauseLock) {
+      int[][] matrix = getMatrix();
+      Bitmap image = getImage();
+      System.out.println(image.getWidth());
+      insertFigure(matrix, image);
+    }
   }
 
   public void pauseGame() {
@@ -71,12 +99,6 @@ public class Game {
     if(task != null) {
       task.cancel();
     }
-  }
-
-  private void createFigure() {
-    int[][] matrix = getMatrix();
-    int image = getImage();
-    insertFigure(matrix, image);
   }
 
   private int[][] getMatrix() {
@@ -107,28 +129,28 @@ public class Game {
     }
   }
 
-  private int getImage() {
+  private Bitmap getImage() {
     int number = Util.numberRandom(5);
     switch(number) {
       case 1:
-        return R.drawable.blue;
+        return BitmapFactory.decodeResource(canvas.getContext().getResources(), R.drawable.blue);
       case 2:
-        return R.drawable.green;
+        return BitmapFactory.decodeResource(canvas.getContext().getResources(), R.drawable.green);
       case 3:
-        return R.drawable.orange;
+        return BitmapFactory.decodeResource(canvas.getContext().getResources(), R.drawable.orange);
       case 4:
-        return R.drawable.red;
+        return BitmapFactory.decodeResource(canvas.getContext().getResources(), R.drawable.red);
       default:
-        return R.drawable.yellow;
+        return BitmapFactory.decodeResource(canvas.getContext().getResources(), R.drawable.yellow);
     }
   }
 
-  private void insertFigure(int[][] matrix, int image) {
+  private void insertFigure(int[][] matrix, Bitmap image) {
     Square[][] squares = canvas.getSquares();
     for(int i = 0; i < matrix.length; i++) {
       for(int j = 0; j < matrix[i].length; j++) {
         if(matrix[i][j] == 1) {
-          Square square = new Square(image, dScale, scaleX, scaleY);
+          Square square = new Square(image, dScale, scaleX, scaleY, WIDTH_IMAGE, HEIGHT_IMAGE);
           squares[i][j] = square;
         }
       }
