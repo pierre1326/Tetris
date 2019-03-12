@@ -53,7 +53,12 @@ public class Menu extends AppCompatActivity {
   }
 
   public void initGame(View view) {
+    Display display = getWindowManager(). getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
     Intent intent = new Intent(this, GameActivity.class);
+    intent.putExtra("width", size.x);
+    intent.putExtra("height", size.y);
     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
   }
 

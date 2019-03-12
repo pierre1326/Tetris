@@ -17,6 +17,9 @@ public class CanvasView extends View {
   private int width;
   private int height;
 
+  private int widthCell;
+  private int heightCell;
+
   private Paint bgPaint;
   private Paint tPaint;
   private Paint sPaint;
@@ -62,6 +65,18 @@ public class CanvasView extends View {
     return point;
   }
 
+  public void setCellSize(Point point) {
+    this.widthCell = point.x;
+    this.heightCell = point.y;
+  }
+
+  public Point getCellSize() {
+    Point point = new Point();
+    point.x = widthCell;
+    point.y = heightCell;
+    return point;
+  }
+
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
     this.width = w;
@@ -90,9 +105,18 @@ public class CanvasView extends View {
     tPaint.setStrokeWidth(3);
     tPaint.setColor(tColor);
     canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
-
     //drawFigures
-
+    int x = 0;
+    int y = 0;
+    if(squares != null) {
+      for(int i = 0; i < squares.length; i++) {
+        for(int j = 0; j < squares[i].length; j++) {
+          //Draw squares
+          x += widthCell;
+        }
+        y += heightCell;
+      }
+    }
   }
 
   private void initPaints() {
