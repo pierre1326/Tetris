@@ -7,6 +7,7 @@ import android.graphics.Point;
 
 import com.tetris.pierre.tetris.R;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class Game {
@@ -14,7 +15,9 @@ public class Game {
   private boolean stoped;
   private int score = 0;
 
-  private boolean activatedSquares;
+  private boolean actualInsert = false;
+
+  private ArrayList<int[]> indexSquares = new ArrayList<>();
 
   private int velocity;
   private float dScale = 0.05f;
@@ -22,7 +25,7 @@ public class Game {
   private int WIDTH_IMAGE = 153;
   private int HEIGHT_IMAGE = 153;
   private long DELAY = 0;
-  private long FPS = 1000 / 30;
+  private long FPS = 20000 / 30;
   private int COLUMNS = 10;
   private int ROWS = 20;
 
@@ -66,6 +69,30 @@ public class Game {
     timer.schedule(task, DELAY , FPS);
   }
 
+  public boolean isActualInsert() {
+    synchronized (pauseLock) {
+      return actualInsert;
+    }
+  }
+
+  public void updateActualInsert() {
+    synchronized (pauseLock) {
+      actualInsert = false;
+    }
+  }
+
+  public ArrayList<int[]> obtainIndex() {
+    synchronized (pauseLock) {
+      return indexSquares;
+    }
+  }
+
+  public void updateIndex(ArrayList<int[]> indexSquares) {
+    synchronized (pauseLock) {
+      this.indexSquares = indexSquares;
+    }
+  }
+
   public Square[][] obtainMatrix() {
     synchronized (pauseLock) {
       return canvas.getSquares();
@@ -75,6 +102,7 @@ public class Game {
   public void updateMatrix(Square[][] matrix) {
     synchronized (pauseLock) {
       canvas.setSquares(matrix);
+      canvas.invalidate();
     }
   }
 
@@ -82,7 +110,6 @@ public class Game {
     synchronized (pauseLock) {
       int[][] matrix = getMatrix();
       Bitmap image = getImage();
-      System.out.println(image.getWidth());
       insertFigure(matrix, image);
     }
   }
@@ -146,12 +173,16 @@ public class Game {
   }
 
   private void insertFigure(int[][] matrix, Bitmap image) {
+    indexSquares.clear();
     Square[][] squares = canvas.getSquares();
+    int column = Util.numberRandom(COLUMNS - matrix[0].length);
     for(int i = 0; i < matrix.length; i++) {
-      for(int j = 0; j < matrix[i].length; j++) {
+      for(int j = 0, actualColumn = column; j < matrix[i].length; j++, actualColumn++) {
         if(matrix[i][j] == 1) {
           Square square = new Square(image, dScale, scaleX, scaleY, WIDTH_IMAGE, HEIGHT_IMAGE);
-          squares[i][j] = square;
+          squares[i][actualColumn] = square;
+          int[] index = {i, actualColumn};
+          indexSquares.add(index);
         }
       }
     }

@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
     canvas = findViewById(R.id.canvas);
     game = new Game(canvas, widht, height);
     game.prepareGame();
-    //game.initGame();
+    game.initGame();
 
     detectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
   }

@@ -16,7 +16,7 @@ public class CanvasView extends View {
   private Canvas canvas;
 
   private int originX = 27;
-  private int originY = 27;
+  private int originY = 50;
 
   private int width;
   private int height;
@@ -101,22 +101,22 @@ public class CanvasView extends View {
     sPaint.setAlpha(100);
     sPaint.setColor(pColor);
     sPaint.setStrokeWidth(10f);
-    canvas.drawRect(0, (int)(height - (height * 0.1f)), width, height, sPaint);
+    canvas.drawRect(0, (int)(height - (height * 0.1f)) + originY, width, height, sPaint);
     sPaint.setColor(sColor);
     sPaint.setStrokeWidth(55f);
-    canvas.drawRect(0, 0, width, height, sPaint);
+    //canvas.drawRect(0, 0, width, height, sPaint);
     //drawText
-    tPaint.setTextSize(110);
+    tPaint.setTextSize(100);
     tPaint.setStrokeWidth(12);
     tPaint.setColor(oColor);
-    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105 + originY, tPaint);
     tPaint.setStyle(Paint.Style.STROKE);
     tPaint.setStrokeWidth(3);
     tPaint.setColor(tColor);
-    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105, tPaint);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105 + originY, tPaint);
     //drawFigures
     int x = originX;
-    int y = originY;
+    int y = 0;
     if(squares != null) {
       fPaint.setColor(bgColor);
       for(int i = 0; i < squares.length; i++) {
@@ -131,7 +131,7 @@ public class CanvasView extends View {
           x += widthCell;
         }
         y += heightCell;
-        x = originY;
+        x = originX;
       }
     }
   }
