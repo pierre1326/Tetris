@@ -99,6 +99,23 @@ public class Game {
     }
   }
 
+  public void moveFigure(int direction) {
+    synchronized (pauseLock) {
+      if(direction == 1) {
+
+      }
+      else if(direction == -1) {
+
+      }
+    }
+  }
+
+  public void rotateFigure() {
+    synchronized (pauseLock) {
+
+    }
+  }
+
   public void updateMatrix(Square[][] matrix) {
     synchronized (pauseLock) {
       canvas.setSquares(matrix);

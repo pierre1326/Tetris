@@ -52,18 +52,35 @@ public class GameActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onTouchEvent(MotionEvent event){
+  public boolean onTouchEvent(MotionEvent event) {
     detectorCompat.onTouchEvent(event);
     return super.onTouchEvent(event);
   }
 
   private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-    private final int pointer = 0;
+    private final int pointers = 1;
+    private float tolerance = 20;
 
     @Override
-    public boolean onDown(MotionEvent event) {
-      return true;
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+      if (e2.getPointerCount() > pointers) {
+        return false;
+      }
+      if (Math.abs(velocityX) >= Math.abs(velocityY) && Math.abs(velocityX) > tolerance) {
+        float distance = e2.getX() - e1.getX();
+        game.moveFigure((int) Math.signum(distance));
+      }
+      return super.onFling(e1, e2, velocityX, velocityY);
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+      if(e.getPointerCount() > pointers) {
+        return false;
+      }
+      game.rotateFigure();
+      return super.onSingleTapConfirmed(e);
     }
 
   }
