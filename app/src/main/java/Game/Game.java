@@ -73,6 +73,12 @@ public class Game {
     timer.schedule(task, DELAY , FPS);
   }
 
+  public boolean isStoped() {
+    synchronized (pauseLock) {
+      return stoped;
+    }
+  }
+
   public boolean isActualInsert() {
     synchronized (pauseLock) {
       return actualInsert;
@@ -162,43 +168,28 @@ public class Game {
 
   public void rotateFigure() {
     synchronized (pauseLock) {
-      int minorIndex = 0;
+      int[] minorIndex = new int[0];
       int minorValue = 5000;
       for(int i = 0; i < indexSquares.size(); i++) {
         int[] index = indexSquares.get(i);
         if(index[0] + index[1] < minorValue) {
-          minorIndex = i;
+          minorIndex = index;
           minorValue = index[0] + index[1];
         }
       }
-      int[] index = indexSquares.get(minorIndex);
-      float[][] R = { {0, -1},{1, 0} };
-      float[][] origin = { {index[0]}, {index[1]} };
+      float[][] origin = { {(float)minorIndex[0]}, {(float)minorIndex[1]} };
+      float[][] R = { {0, 1}, {-1, 0} };
       ArrayList<int[]> newPoints = new ArrayList<>();
+      newPoints.add(minorIndex);
       for(int i = 0; i < indexSquares.size(); i++) {
-        if(i != minorIndex) {
-          index = indexSquares.get(i);
-          float[][] point = { {index[0]}, {index[1]} };
+        int[] index = indexSquares.get(i);
+        if (!(index[0] == minorIndex[0] && index[1] == minorIndex[1])) {
+          float[][] point = { {(float)index[0]}, {(float)index[1]} };
           int[] newPoint = createNewPoint(R, origin, point);
           newPoints.add(newPoint);
-          System.out.println("x: " + newPoint[0] + " y: " + newPoint[1]);
         }
       }
-      //Verificar cada punto
-      Square[][] squares = canvas.getSquares();
-      boolean flagRotate = true;
-      for(int i = 0; i < newPoints.size(); i++) {
-        int[] point = newPoints.get(i);
-        if (!(point[0] > -1 && point[0] < ROWS && point[1] > -1 && point[1] < COLUMNS)) {
-          flagRotate = false;
-        }
-        else if(!(squares[point[0]][point[1]] == null || Util.checkIndex(point, indexSquares) != -1)) {
-          flagRotate = false;
-        }
-      }
-      if(flagRotate) {
-        
-      }
+      System.out.println(newPoints.size());
     }
   }
 

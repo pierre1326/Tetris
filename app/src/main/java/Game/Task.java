@@ -14,8 +14,11 @@ public class Task extends TimerTask {
   @Override
   public void run() {
     ArrayList<int[]> indexSquares = game.obtainIndex();
-    Square[][] squares = game.obtainMatrix();
-    updateFigureActive(indexSquares, squares);
+    if(!game.isStoped()) {
+      Square[][] squares = game.obtainMatrix();
+      updateFigureActive(indexSquares, squares);
+      game.rotateFigure();
+    }
   }
 
   private Square[][] updateFigureActive(ArrayList<int[]> indexSquares, Square[][] squares) {
