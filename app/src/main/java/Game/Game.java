@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.tetris.pierre.tetris.R;
 
@@ -37,7 +39,7 @@ public class Game {
   private float scaleX;
   private float scaleY;
 
-  private CanvasView canvas;
+  public CanvasView canvas;
 
   private final Object pauseLock = new Object();
 
@@ -183,6 +185,20 @@ public class Game {
         }
       }
       //Verificar cada punto
+      Square[][] squares = canvas.getSquares();
+      boolean flagRotate = true;
+      for(int i = 0; i < newPoints.size(); i++) {
+        int[] point = newPoints.get(i);
+        if (!(point[0] > -1 && point[0] < ROWS && point[1] > -1 && point[1] < COLUMNS)) {
+          flagRotate = false;
+        }
+        else if(!(squares[point[0]][point[1]] == null || Util.checkIndex(point, indexSquares) != -1)) {
+          flagRotate = false;
+        }
+      }
+      if(flagRotate) {
+        
+      }
     }
   }
 
@@ -200,7 +216,12 @@ public class Game {
   public void updateMatrix(Square[][] matrix) {
     synchronized (pauseLock) {
       canvas.setSquares(matrix);
-      canvas.invalidate();
+      new Handler(Looper.getMainLooper()).post(new Runnable(){
+        @Override
+        public void run() {
+          canvas.invalidate();
+        }
+      });
     }
   }
 
