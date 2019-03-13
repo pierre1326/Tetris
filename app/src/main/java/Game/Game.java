@@ -7,6 +7,8 @@ import android.graphics.Point;
 
 import com.tetris.pierre.tetris.R;
 
+import org.ejml.simple.SimpleMatrix;
+
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -158,8 +160,41 @@ public class Game {
 
   public void rotateFigure() {
     synchronized (pauseLock) {
-
+      int minorIndex = 0;
+      int minorValue = 5000;
+      for(int i = 0; i < indexSquares.size(); i++) {
+        int[] index = indexSquares.get(i);
+        if(index[0] + index[1] < minorValue) {
+          minorIndex = i;
+          minorValue = index[0] + index[1];
+        }
+      }
+      int[] index = indexSquares.get(minorIndex);
+      float[][] R = { {0, -1},{1, 0} };
+      float[][] origin = { {index[0]}, {index[1]} };
+      ArrayList<int[]> newPoints = new ArrayList<>();
+      for(int i = 0; i < indexSquares.size(); i++) {
+        if(i != minorIndex) {
+          index = indexSquares.get(i);
+          float[][] point = { {index[0]}, {index[1]} };
+          int[] newPoint = createNewPoint(R, origin, point);
+          newPoints.add(newPoint);
+          System.out.println("x: " + newPoint[0] + " y: " + newPoint[1]);
+        }
+      }
+      //Verificar cada punto
     }
+  }
+
+  private int[] createNewPoint(float[][] R, float[][] origin, float[][] point) {
+    SimpleMatrix matrixR = new SimpleMatrix(R);
+    SimpleMatrix matrixOrigin = new SimpleMatrix(origin);
+    SimpleMatrix matrixPoint = new SimpleMatrix(point);
+    SimpleMatrix vR = matrixPoint.plus(matrixOrigin.negative());
+    SimpleMatrix vT = matrixR.mult(vR);
+    SimpleMatrix matrixNewPoint = matrixOrigin.plus(vT);
+    int[] newPoint = { (int)matrixNewPoint.get(0, 0), (int)matrixNewPoint.get(1, 0) };
+    return newPoint;
   }
 
   public void updateMatrix(Square[][] matrix) {
