@@ -122,12 +122,47 @@ public class Game {
 
   public void downFigure() {
     synchronized (pauseLock) {
-      System.out.println("Se bajo la figura");
+      Square[][] squares = canvas.getSquares();
+      ArrayList<int[]> finalPoints = calculateFinalPoints(indexSquares, squares);
+      replacePoints(finalPoints);
     }
   }
 
-  private void calculateFinalPoints(ArrayList<int[]> indexSquares, Square[][] squares) {
-    
+  public ArrayList<int[]> calculateFinalPoints(ArrayList<int[]> indexSquares, Square[][] squares) {
+    int moves = 0;
+    boolean nextRow = true;
+    while(nextRow) {
+      for(int i = 0; i < indexSquares.size(); i++) {
+        int[] point = indexSquares.get(i);
+        int[] newPoint = { point[0] + moves, point[1] };
+        if(newPoint[0] >= ROWS || !(squares[newPoint[0]][newPoint[1]] == null || Util.checkIndex(newPoint, indexSquares) > -1)) {
+          nextRow = false;
+          break;
+        }
+      }
+      if(nextRow) {
+        moves++;
+      }
+    }
+    ArrayList<int[]> finalPoints = new ArrayList<>();
+    for(int i = 0; i < indexSquares.size(); i++) {
+      int[] point = indexSquares.get(i);
+      int[] finalPoint = { point[0] + moves - 1, point[1] };
+      finalPoints.add(finalPoint);
+    }
+    return finalPoints;
+  }
+
+  private void replacePoints(ArrayList<int[]> finalPoints) {
+    Square[][] squares = canvas.getSquares();
+    for(int i = 0; i < indexSquares.size(); i++) {
+      int[] oldPoint = indexSquares.get(i);
+      int[] newPoint = finalPoints.get(i);
+      squares[newPoint[0]][newPoint[1]] = squares[oldPoint[0]][oldPoint[1]];
+      squares[oldPoint[0]][oldPoint[1]] = null;
+
+    }
+    updateIndex(finalPoints);
   }
 
   public void moveFigure(int direction) {
