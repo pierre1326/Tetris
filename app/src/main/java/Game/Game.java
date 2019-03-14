@@ -29,7 +29,7 @@ public class Game {
   private int WIDTH_IMAGE = 153;
   private int HEIGHT_IMAGE = 153;
   private long DELAY = 0;
-  private long FPS = 20000 / 30;
+  private long FPS = 15000 / 30;
   private int COLUMNS = 10;
   private int ROWS = 20;
 

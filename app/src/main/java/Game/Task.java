@@ -38,7 +38,7 @@ public class Task extends TimerTask {
         for(int v = i - 1; v > -1; v--) {
           for(int j = 0; j < squares[v].length; j++) {
             int[] index = { v, j };
-            if(Util.checkIndex(index, indexSquares) == -1) {
+            if(squares[index[0]][index[1]] != null && squares[index[0]][index[1]].isStop()) {
               squares[v + 1][j] = squares[v][j];
               squares[v][j] = null;
             }
@@ -95,6 +95,10 @@ public class Task extends TimerTask {
         game.loseGame();
       }
       else {
+        for(int i = 0; i < indexSquares.size(); i++) {
+          int[] index = indexSquares.get(i);
+          squares[index[0]][index[1]].setStoped(true);
+        }
         game.createFigure();
       }
     }
