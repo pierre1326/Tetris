@@ -17,7 +17,6 @@ public class Task extends TimerTask {
     if(!game.isStoped()) {
       Square[][] squares = game.obtainMatrix();
       updateFigureActive(indexSquares, squares);
-      game.rotateFigure();
     }
   }
 

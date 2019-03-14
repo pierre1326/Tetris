@@ -169,12 +169,12 @@ public class Game {
   public void rotateFigure() {
     synchronized (pauseLock) {
       int[] minorIndex = new int[0];
-      int minorValue = 5000;
+      int row = ROWS;
+      int column = COLUMNS;
       for(int i = 0; i < indexSquares.size(); i++) {
         int[] index = indexSquares.get(i);
-        if(index[0] + index[1] < minorValue) {
+        if(index[0] < row || index[1] < column) {
           minorIndex = index;
-          minorValue = index[0] + index[1];
         }
       }
       float[][] origin = { {(float)minorIndex[0]}, {(float)minorIndex[1]} };
@@ -189,7 +189,34 @@ public class Game {
           newPoints.add(newPoint);
         }
       }
-      System.out.println(newPoints.size());
+      Square[][] squares = canvas.getSquares();
+      boolean flagRotate = true;
+      for(int i = 0; i < newPoints.size(); i++) {
+        int[] point = newPoints.get(i);
+        if(point[0] < ROWS && point[0] > -1) {
+          if(point[1] < COLUMNS && point[1] > -1) {
+            if(squares[point[0]][point[1]] == null || Util.checkIndex(point, indexSquares) != -1) {
+              continue;
+            }
+          }
+        }
+        flagRotate = false;
+      }
+      if(flagRotate) {
+        ArrayList<Square> moveSquares = new ArrayList<>();
+        for(int i = 0; i < indexSquares.size(); i++) {
+          int[] point = indexSquares.get(i);
+          moveSquares.add(squares[point[0]][point[1]]);
+          squares[point[0]][point[1]] = null;
+        }
+        for(int i = 0; i < newPoints.size(); i++) {
+          int[] point = newPoints.get(i);
+          Square square = moveSquares.get(i);
+          squares[point[0]][point[1]] = square;
+        }
+        updateIndex(newPoints);
+        updateMatrix(squares);
+      }
     }
   }
 
@@ -207,12 +234,7 @@ public class Game {
   public void updateMatrix(Square[][] matrix) {
     synchronized (pauseLock) {
       canvas.setSquares(matrix);
-      new Handler(Looper.getMainLooper()).post(new Runnable(){
-        @Override
-        public void run() {
-          canvas.invalidate();
-        }
-      });
+      new Handler(Looper.getMainLooper()).post(() -> canvas.invalidate());
     }
   }
 
