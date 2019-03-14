@@ -120,6 +120,16 @@ public class Game {
     }
   }
 
+  public void downFigure() {
+    synchronized (pauseLock) {
+      System.out.println("Se bajo la figura");
+    }
+  }
+
+  private void calculateFinalPoints(ArrayList<int[]> indexSquares, Square[][] squares) {
+    
+  }
+
   public void moveFigure(int direction) {
     synchronized (pauseLock) {
       if(direction == -1) {
