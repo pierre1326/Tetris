@@ -73,6 +73,13 @@ public class Game {
     timer.schedule(task, DELAY , FPS);
   }
 
+  public void addScore() {
+    synchronized (pauseLock) {
+      score += 500;
+      canvas.setScore(score);
+    }
+  }
+
   public boolean isStoped() {
     synchronized (pauseLock) {
       return stoped;
@@ -95,6 +102,10 @@ public class Game {
     synchronized (pauseLock) {
       return indexSquares;
     }
+  }
+
+  public void loseGame() {
+    System.out.println("Perdiste we");
   }
 
   public void updateIndex(ArrayList<int[]> indexSquares) {

@@ -70,11 +70,4 @@ public class Square {
     return scaleY;
   }
 
-  public void update() {
-    if(reduce) {
-      scaleX = Util.lerp(scaleX, 0 , dScale) - 0.05f;
-      scaleY = Util.lerp(scaleY, 0, dScale) - 0.05f;
-    }
-  }
-
 }
