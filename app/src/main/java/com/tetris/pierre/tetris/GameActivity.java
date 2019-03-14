@@ -60,8 +60,7 @@ public class GameActivity extends AppCompatActivity {
   private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
     private final int pointers = 1;
-    private float toleranceX = 20;
-    private float toleranceY = 30;
+    private float toleranceX = 100;
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -72,10 +71,16 @@ public class GameActivity extends AppCompatActivity {
         float distance = e2.getX() - e1.getX();
         game.moveFigure((int) Math.signum(distance));
       }
-      else if(Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > toleranceY) {
-        game.downFigure();
-      }
       return super.onFling(e1, e2, velocityX, velocityY);
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+      if(e.getPointerCount() > pointers) {
+        return false;
+      }
+      game.downFigure();
+      return super.onDoubleTap(e);
     }
 
     @Override

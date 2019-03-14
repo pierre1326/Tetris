@@ -92,6 +92,14 @@ public class Game {
     }
   }
 
+  public void updateFinalPoints(Bitmap image) {
+    synchronized (pauseLock) {
+      ArrayList<int[]> finalPoints = calculateFinalPoints(indexSquares, canvas.getSquares());
+      canvas.setFinalPoints(finalPoints);
+      canvas.setImage(image);
+    }
+  }
+
   public void updateActualInsert() {
     synchronized (pauseLock) {
       actualInsert = false;

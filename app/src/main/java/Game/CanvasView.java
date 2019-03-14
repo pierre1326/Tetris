@@ -1,6 +1,7 @@
 package Game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,8 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.util.ArrayList;
 
 public class CanvasView extends View {
 
@@ -37,6 +40,9 @@ public class CanvasView extends View {
 
   private Square[][] squares;
 
+  private ArrayList<int[]> finalPoints = new ArrayList<>();
+  private Bitmap image;
+
   private int score;
 
   public CanvasView(Context context, AttributeSet attrs) {
@@ -60,6 +66,14 @@ public class CanvasView extends View {
 
   public void setScore(int score) {
     this.score = score;
+  }
+
+  public void setFinalPoints(ArrayList<int[]> finalPoints) {
+    this.finalPoints = finalPoints;
+  }
+
+  public void setImage(Bitmap image) {
+    this.image = image;
   }
 
   public Point getSize() {
@@ -106,17 +120,19 @@ public class CanvasView extends View {
     sPaint.setStrokeWidth(55f);
     //canvas.drawRect(0, 0, width, height, sPaint);
     //drawText
-    tPaint.setTextSize(100);
+    tPaint.setTextSize(50);
     tPaint.setStrokeWidth(12);
     tPaint.setColor(oColor);
-    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105 + originY, tPaint);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 65 + originY, tPaint);
     tPaint.setStyle(Paint.Style.STROKE);
     tPaint.setStrokeWidth(3);
     tPaint.setColor(tColor);
-    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 105 + originY, tPaint);
+    canvas.drawText("Score: " + score, 50, (int)(height - (height * 0.1f)) + 65 + originY, tPaint);
     //drawFigures
     int x = originX;
     int y = 0;
+    float fitWidth = 0;
+    float fitHeight = 0;
     if(squares != null) {
       fPaint.setColor(bgColor);
       for(int i = 0; i < squares.length; i++) {
@@ -125,7 +141,9 @@ public class CanvasView extends View {
             Square square = squares[i][j];
             canvas.save();
             canvas.translate(x, y);
-            canvas.drawBitmap (square.getImage(), null, new RectF((float)0,(float)0, square.getFitWidht(),square.getFitHeight()),null);
+            canvas.drawBitmap (square.getImage(), null, new RectF((float)0,(float)0, square.getFitWidth(),square.getFitHeight()),null);
+            fitWidth = square.getFitWidth();
+            fitHeight = square.getFitHeight();
             canvas.restore();
           }
           x += widthCell;
@@ -133,6 +151,19 @@ public class CanvasView extends View {
         y += heightCell;
         x = originX;
       }
+    }
+    if(finalPoints != null && image != null) {
+      fPaint.setAlpha(40);
+      for(int i = 0; i < finalPoints.size(); i++) {
+        int[] point = finalPoints.get(i);
+        x = originX + (point[1] * widthCell);
+        y = point[0] * heightCell;
+        canvas.save();
+        canvas.translate(x, y);
+        canvas.drawBitmap (image, null, new RectF((float)0,(float)0, fitWidth, fitHeight), fPaint);
+        canvas.restore();
+      }
+      fPaint.setAlpha(100);
     }
   }
 

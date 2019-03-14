@@ -1,5 +1,7 @@
 package Game;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.TimerTask;
 
@@ -79,8 +81,11 @@ public class Task extends TimerTask {
             }
           }
         }
+        int[] point = indexSquares.get(0);
+        Bitmap image = squares[point[0]][point[1]].getImage();
         game.updateIndex(indexSquares);
         game.updateMatrix(squares);
+        game.updateFinalPoints(image);
       }
     }
     else {

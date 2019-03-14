@@ -46,7 +46,7 @@ public class Square {
     return image;
   }
 
-  public float getFitWidht() {
+  public float getFitWidth() {
     return width * scaleX;
   }
 
