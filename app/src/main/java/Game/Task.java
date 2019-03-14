@@ -16,7 +16,7 @@ public class Task extends TimerTask {
   @Override
   public void run() {
     ArrayList<int[]> indexSquares = game.obtainIndex();
-    if(!game.isStoped()) {
+    if(!game.isStopped()) {
       Square[][] squares = game.obtainMatrix();
       updateFigureActive(indexSquares, squares);
       deleteLine(indexSquares, squares);

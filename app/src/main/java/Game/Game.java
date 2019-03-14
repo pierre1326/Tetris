@@ -16,7 +16,7 @@ import java.util.Timer;
 
 public class Game {
 
-  private boolean stoped;
+  private boolean stopped;
   private int score = 0;
 
   private boolean actualInsert = false;
@@ -80,9 +80,9 @@ public class Game {
     }
   }
 
-  public boolean isStoped() {
+  public boolean isStopped() {
     synchronized (pauseLock) {
-      return stoped;
+      return stopped;
     }
   }
 
@@ -310,11 +310,11 @@ public class Game {
   }
 
   public void pauseGame() {
-    stoped = true;
+    stopped = true;
   }
 
   public void resumeGame() {
-    stoped = false;
+    stopped = false;
   }
 
   public void stopGame() {
