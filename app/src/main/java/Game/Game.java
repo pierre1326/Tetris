@@ -160,7 +160,6 @@ public class Game {
       int[] newPoint = finalPoints.get(i);
       squares[newPoint[0]][newPoint[1]] = squares[oldPoint[0]][oldPoint[1]];
       squares[oldPoint[0]][oldPoint[1]] = null;
-
     }
     updateIndex(finalPoints);
   }
