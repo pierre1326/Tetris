@@ -57,6 +57,8 @@ public class Game {
     canvas.changeColors(Color.parseColor("#002b80"), Color.parseColor("#d9d9d9"), Color.WHITE, Color.parseColor("#99003d"), Color.parseColor("#d9d9d9"));
     this.velocity = 32;
     this.dScale = 0.01f;
+    this.score = 0;
+    canvas.setScore(score);
     Point origin = canvas.getOrigin();
     int fitHeight = height - origin.y;
     Point cellSize = new Point();
@@ -113,7 +115,18 @@ public class Game {
   }
 
   public void loseGame() {
-    System.out.println("Perdiste we");
+    synchronized (pauseLock) {
+      Square[][] squares = canvas.getSquares();
+      for(int i = 0; i < squares.length; i++) {
+        for(int j = 0; j < squares[i].length; j++) {
+          squares[i][j] = null;
+        }
+      }
+      createFigure();
+      score = 0;
+      canvas.setScore(0);
+    }
+    resumeGame();
   }
 
   public void updateIndex(ArrayList<int[]> indexSquares) {

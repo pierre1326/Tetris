@@ -95,6 +95,10 @@ public class CanvasView extends View {
     return point;
   }
 
+  public ArrayList<int[]> getFinalPoints() {
+    return finalPoints;
+  }
+
   public Point getOrigin() {
     Point point = new Point(originX, originY);
     return point;

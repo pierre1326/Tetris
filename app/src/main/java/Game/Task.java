@@ -81,11 +81,15 @@ public class Task extends TimerTask {
             }
           }
         }
-        int[] point = indexSquares.get(0);
-        Bitmap image = squares[point[0]][point[1]].getImage();
+        if(indexSquares.size() > 0) {
+          int[] point = indexSquares.get(0);
+          if(squares[point[0]][point[1]] != null) {
+            Bitmap image = squares[point[0]][point[1]].getImage();
+            game.updateFinalPoints(image);
+          }
+        }
         game.updateIndex(indexSquares);
         game.updateMatrix(squares);
-        game.updateFinalPoints(image);
       }
     }
     else {
@@ -97,6 +101,7 @@ public class Task extends TimerTask {
         }
       }
       if(loseGame) {
+        game.pauseGame();
         game.loseGame();
       }
       else {
